@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>与田小姐的约会 | 恋爱模拟器</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif}
+        body{
+            background: linear-gradient(135deg,#fff0f6,#f0f8ff);
+            min-height:100vh;
+            padding:30px;
+        }
+        .container{
+            max-width:700px;
+            margin:0 auto;
+            background:#ffffffdd;
+            border-radius:20px;
+            padding:30px;
+            box-shadow:0 8px 24px #00000018;
+        }
+        h1{text-align:center;color:#d86b91;margin-bottom:16px;font-size:26px}
+        .info-bar{
+            display:flex;
+            justify-content:space-between;
+            background:#fce8f0;
+            padding:12px 16px;
+            border-radius:12px;
+            margin-bottom:20px;
+            font-weight:bold;color:#b84b73;
+        }
+        .story-box{
+            min-height:180px;
+            padding:20px;
+            background:#fdf4f8;
+            border-radius:14px;
+            line-height:1.7;
+            font-size:17px;
+            color:#333;
+            margin-bottom:24px;
+        }
+        .name-tag{font-weight:bold;color:#d45882}
+        .option-group{display:grid;gap:12px}
+        button{
+            padding:14px 18px;
+            border:none;
+            border-radius:12px;
+            background:#e884aa;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.25s;
+        }
+        button:hover{background:#d0648f;transform:translateY(-2px)}
+        .end-text{text-align:center;font-size:20px;color:#c1406e;font-weight:bold}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>✨ 与田小姐的约会 ✨</h1>
+    <div class="info-bar">
+        <span>好感度：<span id="hp">50</span></span>
+        <span id="sceneName">傍晚街边偶遇</span>
+    </div>
+    <div class="story-box" id="story">
+        <span class="name-tag">田小姐：</span>哇，好巧！你也来这条街散步吗？晚风好舒服，我刚买了一杯奶茶。
+    </div>
+    <div class="option-group" id="options">
+        <button onclick="select(1)">A：是啊，刚好出来走走，你的奶茶看起来很好喝。</button>
+        <button onclick="select(2)">B：不是，我特意过来找你的。</button>
+        <button onclick="select(3)">C：随便逛逛，这里人有点多。</button>
+    </div>
+</div>
+
+<script>
+let hp = 50;
+const storyEl = document.getElementById('story');
+const hpEl = document.getElementById('hp');
+const sceneEl = document.getElementById('sceneName');
+const optionEl = document.getElementById('options');
+
+function select(choice){
+    if(choice === 1){
+        hp += 8;
+        storyEl.innerHTML = `<span class="name-tag">田小姐：</span>嘿嘿，是芋泥奶茶！要尝一口吗？晚风慢慢吹着，我们可以沿着这条路慢慢走。`;
+        sceneEl.innerText = "一起散步";
+        optionEl.innerHTML = `
+            <button onclick="select1_1">A：好呀，那我尝尝。</button>
+            <button onclick="select1_2">B：还是你喝吧，我们专心散步聊天。</button>
+        `
+    }else if(choice === 2){
+        hp +=12;
+        storyEl.innerHTML = `<span class="name-tag">田小姐：</span>？真的吗……你这么一说，我突然有点脸红啦。`;
+        sceneEl.innerText = "心动瞬间";
+        optionEl.innerHTML = `
+            <button onclick="select2_1">A：当然，我很想见到你。</button>
+            <button onclick="select2_2">B：开玩笑的，别当真。</button>
+        `
+    }else if(choice ===3){
+        hp -=5;
+        storyEl.innerHTML = `<span class="name-tag">田小姐：</span>嗯，确实人不少……那要不，我们换个安静一点的小路？`;
+        sceneEl.innerText = "略显平淡";
+        optionEl.innerHTML = `
+            <button onclick="select3_1">A：好，我们去安静小路。</button>
+            <button onclick="select3_2">B：算了，我准备回去了。</button>
+        `
+    }
+    hpEl.innerText = hp;
+}
+
+//分支1
+function select1_1(){
+    hp +=10;
+    end("甜蜜结局","田小姐笑着递过奶茶，你们并肩漫步，晚风裹挟着甜甜的香气。好感度很高，她很喜欢和你待在一起。");
+}
+function select1_2(){
+    hp +=6;
+    end("温柔结局","田小姐点点头，一路上和你聊着日常，气氛轻松惬意。");
+}
+
+//分支2
+function select2_1(){
+    hp +=15;
+    end("告白结局","田小姐低头抿嘴笑，轻轻说：其实，我也期待能见到你。");
+}
+function select2_2(){
+    hp -=8;
+    end("平淡结局","田小姐眼神黯淡了一点，轻轻哦了一声，气氛安静下来。");
+}
+
+//分支3
+function select3_1(){
+    hp +=4;
+    end("悠闲结局","你们走到安静小路，慢慢聊天，享受傍晚时光。");
+}
+function select3_2(){
+    hp -=12;
+    end("遗憾结局","田小姐愣了愣，跟你道别，独自继续散步。");
+}
+
+function end(title,text){
+    sceneEl.innerText = title;
+    storyEl.innerHTML = `<div class="end-text">${title}</div><br>${text}`;
+    optionEl.innerHTML = `<button onclick="restart()">重新开始游戏</button>`
+}
+function restart(){
+    hp=50;
+    hpEl.innerText=hp;
+    sceneEl.innerText="傍晚街边偶遇";
+    storyEl.innerHTML = `<span class="name-tag">田小姐：</span>哇，好巧！你也来这条街散步吗？晚风好舒服，我刚买了一杯奶茶。`;
+    optionEl.innerHTML = `
+        <button onclick="select(1)">A：是啊，刚好出来走走，你的奶茶看起来很好喝。</button>
+        <button onclick="select(2)">B：不是，我特意过来找你的。</button>
+        <button onclick="select(3)">C：随便逛逛，这里人有点多。</button>
+    `
+}
+</script>
+</body>
+</html>
