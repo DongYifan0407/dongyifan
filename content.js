@@ -36,7 +36,7 @@ const portfolio = {
     { category: "analysis", number: "17", title: "csv自动化大屏", description: "csv数据可视化大屏，支持数据筛选、图表切换。", tags: ["pandas", "pyecharts","Excel"], link: "Portfolio/csv自动化大屏/CSV自动大屏.html", accent: "coral", bgImage: "Portfolio/bgimgs/数据大屏.png"},
     { category: "creative", number: "18", title: "炫酷项目展示", description: "AIGC技术项目展示，展示AIGC技术项目，包括但不限于AI绘画、AI写作、AI编程等。", tags: ["AIGC", "提示词","python"], link: "Portfolio/炫酷项目展示.html", accent: "coral", bgImage: "Portfolio/bgimgs/AIGC.png"},
     { category: "creative", number: "19", title: "刘亦菲final", description: "刘亦菲是开阳心中最完美的女神", tags: ["beautiful", "lovely","pretty"], link: "Portfolio/刘亦菲.html", accent: "coral", bgImage: "Portfolio/bgimgs/刘亦菲.jpg"},
-      { category: "creative", number: "20", title: "田曦薇final", description: "田曦薇是凡心中智慧女神的化身", tags: ["beautiful", "wise goddess","adorable"], link: "Portfolio/田曦薇.html", accent: "coral", bgImage: "Portfolio/bgimgs/田曦薇美照.jpg"}
+      { category: "creative", number: "20", title: "田曦薇final", description: "田曦薇是凡心中智慧女神的化身", tags: ["beautiful", "wise goddess","adorable"], link: "Portfolio/田曦薇.html", accent: "coral", bgImage: "Portfolio/bgimgs/田曦薇美照.jpeg"}
 
   ]
 };
