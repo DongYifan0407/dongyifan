@@ -3,157 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>与田小姐的约会 | 恋爱模拟器</title>
+    <title>与田小姐的约会 · 七夜物语</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei","PingFang SC",sans-serif}
         body{
-            background: linear-gradient(135deg,#fff0f6,#f0f8ff);
+            background: linear-gradient(135deg,#fff0f6 0%,#f0f8ff 50%,#fdf2f8 100%);
             min-height:100vh;
-            padding:30px;
+            padding:30px 16px;
         }
         .container{
-            max-width:700px;
+            max-width:720px;
             margin:0 auto;
-            background:#ffffffdd;
-            border-radius:20px;
-            padding:30px;
-            box-shadow:0 8px 24px #00000018;
+            background:#ffffffee;
+            border-radius:22px;
+            padding:28px;
+            box-shadow:0 10px 32px rgba(216,107,145,0.18);
+            border:1px solid #fce0ec;
         }
-        h1{text-align:center;color:#d86b91;margin-bottom:16px;font-size:26px}
+        h1{
+            text-align:center;
+            color:#d86b91;
+            margin-bottom:6px;
+            font-size:24px;
+            letter-spacing:2px;
+        }
+        .subtitle{
+            text-align:center;
+            color:#b88aa0;
+            font-size:13px;
+            margin-bottom:18px;
+        }
         .info-bar{
             display:flex;
             justify-content:space-between;
-            background:#fce8f0;
-            padding:12px 16px;
-            border-radius:12px;
+            align-items:center;
+            background:linear-gradient(90deg,#fce8f0,#f0e8fc);
+            padding:12px 18px;
+            border-radius:14px;
             margin-bottom:20px;
-            font-weight:bold;color:#b84b73;
+            font-weight:bold;
+            color:#b84b73;
+            font-size:14px;
+        }
+        .stage-tag{
+            background:#d86b91;
+            color:white;
+            padding:4px 12px;
+            border-radius:20px;
+            font-size:12px;
+        }
+        .hp-bar{
+            flex:1;
+            margin:0 14px;
+            height:10px;
+            background:#f0d6e2;
+            border-radius:10px;
+            overflow:hidden;
+        }
+        .hp-fill{
+            height:100%;
+            background:linear-gradient(90deg,#e884aa,#d45882);
+            transition:width 0.5s ease;
+            border-radius:10px;
         }
         .story-box{
-            min-height:180px;
-            padding:20px;
-            background:#fdf4f8;
-            border-radius:14px;
-            line-height:1.7;
-            font-size:17px;
-            color:#333;
-            margin-bottom:24px;
+            min-height:200px;
+            padding:22px;
+            background:linear-gradient(180deg,#fdf4f8,#ffffff);
+            border-radius:16px;
+            line-height:1.9;
+            font-size:16px;
+            color:#444;
+            margin-bottom:22px;
+            border:1px dashed #f0c0d4;
         }
-        .name-tag{font-weight:bold;color:#d45882}
-        .option-group{display:grid;gap:12px}
+        .name-tag{
+            font-weight:bold;
+            color:#d45882;
+            margin-right:4px;
+        }
+        .narration{
+            color:#888;
+            font-style:italic;
+            font-size:14px;
+            margin:8px 0;
+            display:block;
+        }
+        .option-group{
+            display:grid;
+            gap:12px;
+        }
         button{
             padding:14px 18px;
             border:none;
-            border-radius:12px;
-            background:#e884aa;
+            border-radius:14px;
+            background:linear-gradient(90deg,#e884aa,#d45882);
             color:white;
-            font-size:16px;
+            font-size:15px;
             cursor:pointer;
             transition:0.25s;
+            box-shadow:0 3px 10px rgba(216,107,145,0.25);
         }
-        button:hover{background:#d0648f;transform:translateY(-2px)}
-        .end-text{text-align:center;font-size:20px;color:#c1406e;font-weight:bold}
+        button:hover{
+            background:linear-gradient(90deg,#d0648f,#b84b73);
+            transform:translateY(-2px);
+            box-shadow:0 5px 14px rgba(216,107,145,0.35);
+        }
+        .end-text{
+            text-align:center;
+            font-size:22px;
+            color:#c1406e;
+            font-weight:bold;
+            margin-bottom:12px;
+        }
+        .ending-good{color:#e91e63}
+        .ending-bad{color:#7b6878}
+        .ending-mid{color:#d4a017}
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>✨ 与田小姐的约会 ✨</h1>
+    <h1>✨ 与田小姐的约会 · 七夜物语 ✨</h1>
+    <div class="subtitle">七日限定 · 心动的瞬间正在发生……</div>
     <div class="info-bar">
-        <span>好感度：<span id="hp">50</span></span>
-        <span id="sceneName">傍晚街边偶遇</span>
+        <span>好感度 <span id="hp">50</span></span>
+        <div class="hp-bar"><div class="hp-fill" id="hpFill" style="width:50%"></div></div>
+        <span class="stage-tag" id="stageTag">第 1 夜</span>
     </div>
-    <div class="story-box" id="story">
-        <span class="name-tag">田小姐：</span>哇，好巧！你也来这条街散步吗？晚风好舒服，我刚买了一杯奶茶。
-    </div>
-    <div class="option-group" id="options">
-        <button onclick="select(1)">A：是啊，刚好出来走走，你的奶茶看起来很好喝。</button>
-        <button onclick="select(2)">B：不是，我特意过来找你的。</button>
-        <button onclick="select(3)">C：随便逛逛，这里人有点多。</button>
-    </div>
+    <div class="story-box" id="story"></div>
+    <div class="option-group" id="options"></div>
 </div>
 
 <script>
-let hp = 50;
-const storyEl = document.getElementById('story');
-const hpEl = document.getElementById('hp');
-const sceneEl = document.getElementById('sceneName');
+const storyEl  = document.getElementById('story');
+const hpEl     = document.getElementById('hp');
+const hpFill   = document.getElementById('hpFill');
+const stageEl  = document.getElementById('stageTag');
 const optionEl = document.getElementById('options');
 
-function select(choice){
-    if(choice === 1){
-        hp += 8;
-        storyEl.innerHTML = `<span class="name-tag">田小姐：</span>嘿嘿，是芋泥奶茶！要尝一口吗？晚风慢慢吹着，我们可以沿着这条路慢慢走。`;
-        sceneEl.innerText = "一起散步";
-        optionEl.innerHTML = `
-            <button onclick="select1_1">A：好呀，那我尝尝。</button>
-            <button onclick="select1_2">B：还是你喝吧，我们专心散步聊天。</button>
-        `
-    }else if(choice === 2){
-        hp +=12;
-        storyEl.innerHTML = `<span class="name-tag">田小姐：</span>？真的吗……你这么一说，我突然有点脸红啦。`;
-        sceneEl.innerText = "心动瞬间";
-        optionEl.innerHTML = `
-            <button onclick="select2_1">A：当然，我很想见到你。</button>
-            <button onclick="select2_2">B：开玩笑的，别当真。</button>
-        `
-    }else if(choice ===3){
-        hp -=5;
-        storyEl.innerHTML = `<span class="name-tag">田小姐：</span>嗯，确实人不少……那要不，我们换个安静一点的小路？`;
-        sceneEl.innerText = "略显平淡";
-        optionEl.innerHTML = `
-            <button onclick="select3_1">A：好，我们去安静小路。</button>
-            <button onclick="select3_2">B：算了，我准备回去了。</button>
-        `
+let hp = 50;
+let node = 'day1';
+
+/* ========= 七个阶段的剧情表 ========= */
+const SCENES = {
+
+    /* ---- 第 1 夜：傍晚街边偶遇 ---- */
+    day1: {
+        stage: "第 1 夜",
+        story: '<span class="name-tag">田小姐：</span>哇，好巧！你也来这条街散步吗？<span class="narration">晚风裹着桂花香味吹过她的裙摆。她手里拎着一杯芋泥奶茶，眼睛弯成了月牙。</span>晚风好舒服，我刚买了一杯奶茶。',
+        choices: [
+            { text: "A：是啊，刚好出来走走。你的奶茶看起来很好喝。", hp: +8,  next: 'day2a' },
+            { text: "B：不是，我特意过来找你的。",                      hp: +12, next: 'day2b' },
+            { text: "C：随便逛逛，这里人有点多。",                      hp: -5,  next: 'day2c' },
+        ],
+    },
+
+    /* ---- 第 2 夜：三个不同的开场 ---- */
+    day2a: {
+        stage: "第 2 夜 · 一起散步",
+        story: '<span class="name-tag">田小姐：</span>嘿嘿，是芋泥奶茶！要尝一口吗？<span class="narration">她把杯子递过来一点点，脸微微红了。</span>晚风慢慢吹着，我们可以沿着这条路慢慢走。',
+        choices: [
+            { text: "A：好呀，那我尝尝。",                  hp: +10, next: 'day3_walk'   },
+            { text: "B：还是你喝吧，我们专心散步聊天。",     hp: +6,  next: 'day3_talk'   },
+        ],
+    },
+    day2b: {
+        stage: "第 2 夜 · 心动瞬间",
+        story: '<span class="name-tag">田小姐：</span>……？真的吗……<span class="narration">她突然停下脚步，低下头，耳朵尖慢慢染上了粉色。</span>你这么一说，我突然有点脸红啦。',
+        choices: [
+            { text: "A：当然，我很想见到你。",     hp: +15, next: 'day3_blush'  },
+            { text: "B：开玩笑的，别当真。",       hp: -8,  next: 'day3_cold'   },
+        ],
+    },
+    day2c: {
+        stage: "第 2 夜 · 略显平淡",
+        story: '<span class="name-tag">田小姐：</span>嗯……确实人不少。<span class="narration">她的笑容淡了一些，手指轻轻绕着奶茶杯的杯沿。</span>那要不，我们换个安静一点的小路？',
+        choices: [
+            { text: "A：好，我们去安静小路。",     hp: +4,  next: 'day3_calm'   },
+            { text: "B：算了，我准备回去了。",     hp: -12, next: 'day3_leave'  },
+        ],
+    },
+
+    /* ---- 第 3 夜：深夜便利店 ---- */
+    day3_walk: {
+        stage: "第 3 夜 · 便利店之约",
+        story: '<span class="narration">走着走着，街角的便利店灯牌亮了起来。"叮咚"一声，自动门开了。</span><span class="name-tag">田小姐：</span>我有点饿了……要不要进去？我请你吃关东煮！',
+        choices: [
+            { text: "A：好啊，我要萝卜和玉子烧。",   hp: +8,  next: 'day4_night' },
+            { text: "B：不用了，我不饿，你自己吃吧。", hp: -6, next: 'day4_night' },
+        ],
+    },
+    day3_talk: {
+        stage: "第 3 夜 · 日常闲聊",
+        story: '<span class="narration">你们沿着河堤慢慢走，从工作聊到大学时代。河面上的路灯映出两条细细的影子。</span><span class="name-tag">田小姐：</span>……其实，好久没人陪我这么散步了。',
+        choices: [
+            { text: "A：那我以后常陪你。",     hp: +12, next: 'day4_night' },
+            { text: "B：多好，一个人清静。",   hp: -5,  next: 'day4_night' },
+        ],
+    },
+    day3_blush: {
+        stage: "第 3 夜 · 心跳加快",
+        story: '<span class="narration">她抬起头，眼里盛着路灯的光。空气好像突然变得很安静，只有彼此的呼吸声。</span><span class="name-tag">田小姐：</span>……我也是。那，那我们再走一会儿吧，好不好？',
+        choices: [
+            { text: "A：当然好，我不想让你回家。",     hp: +10, next: 'day4_night' },
+            { text: "B：好，就走完这条街。",           hp: +5,  next: 'day4_night' },
+        ],
+    },
+    day3_cold: {
+        stage: "第 3 夜 · 气氛微妙",
+        story: '<span class="narration">她的眼神黯淡了一瞬，嘴角的微笑变成了礼貌的弧度。</span><span class="name-tag">田小姐：</span>……好吧，我差点就信了。',
+        choices: [
+            { text: "A：其实我……有点后悔。",     hp: +8,  next: 'day4_night' },
+            { text: "B：对啦，我这人就是爱开玩笑。", hp: -5, next: 'day4_night' },
+        ],
+    },
+    day3_calm: {
+        stage: "第 3 夜 · 安静时光",
+        story: '<span class="narration">小路很静，两旁是老小区的围墙，墙头上爬着一簇簇凌霄花。</span><span class="name-tag">田小姐：</span>这里我小时候常来，安静得能听见自己的脚步声。',
+        choices: [
+            { text: "A：那以后我带你去更多安静的地方。", hp: +8, next: 'day4_night' },
+            { text: "B：挺好的，安静也好。",          hp: +2, next: 'day4_night' },
+        ],
+    },
+    day3_leave: {
+        stage: "第 3 夜 · 提前散场",
+        story: '<span class="narration">她愣了愣，攥紧了手里的奶茶杯。</span><span class="name-tag">田小姐：</span>哦……好，那路上小心。<span class="narration">她转身走向相反方向，背影有一点点孤单。</span>',
+        choices: [
+            { text: "A：等等——我送你回去吧。",     hp: +10, next: 'day4_night' },
+            { text: "B：再见。",                   hp: 0,   next: 'day4_night' },
+        ],
+    },
+
+    /* ---- 第 4 夜：突然的降雨 ---- */
+    day4_night: {
+        stage: "第 4 夜 · 夜雨",
+        story: '<span class="narration">空气突然凉了下来。一滴、两滴，然后——"哗"的一声，大雨砸了下来。你们一起跑向街角的屋檐。</span><span class="name-tag">田小姐：</span>啊！我……我没带伞！',
+        choices: [
+            { text: "A：（把外套脱下来罩在她头上）快别淋湿了。", hp: +15, next: 'day5_rain1' },
+            { text: "B：等等，我去便利店借两把伞！",              hp: +6,  next: 'day5_rain2' },
+            { text: "C：（自顾自跑进雨里）我先回去了啊！",        hp: -20, next: 'day5_run'  },
+        ],
+    },
+
+    /* ---- 第 5 夜：雨夜里的真心话 ---- */
+    day5_rain1: {
+        stage: "第 5 夜 · 雨中靠近",
+        story: '<span class="narration">她在你外套下抬头看着你，发梢沾着点点水珠。呼吸扑在你胸前，温热的。</span><span class="name-tag">田小姐：</span>……你身上好暖。',
+        choices: [
+            { text: "A：（轻轻把她往怀里揽了揽）别着凉了。", hp: +15, next: 'day6_hug'   },
+            { text: "B：要不要我给你唱首歌？消磨下时间。",  hp: +8,  next: 'day6_hug'   },
+            { text: "C：……我有点慌，我们聊聊天？",          hp: +5,  next: 'day6_hug'   },
+        ],
+    },
+    day5_rain2: {
+        stage: "第 5 夜 · 两把伞",
+        story: '<span class="narration">你跑回来，递她一把透明的小伞。雨滴在伞面上叮咚作响。</span><span class="name-tag">田小姐：</span>谢谢……那我们——是同撑一把，还是？',
+        choices: [
+            { text: "A：当然同撑一把，我大男生不怕淋。",  hp: +10, next: 'day6_hug'   },
+            { text: "B：那就各撑各的吧。",                  hp: -5,  next: 'day6_alone' },
+        ],
+    },
+    day5_run: {
+        stage: "第 5 夜 · 雨里的背影",
+        story: '<span class="narration">你跑进雨里，听见身后传来一声极轻极轻的叹息。回头时，她已经独自撑着头顶的小背包，跑进了另一条巷子。</span>',
+        choices: [
+            { text: "A：（追上去）田小姐！等等我——！",   hp: +12, next: 'day6_chase' },
+            { text: "B：算了……也许她本来就不想和我待着。", hp: -8, next: 'day6_alone' },
+        ],
+    },
+
+    /* ---- 第 6 夜：凌晨的告白 ---- */
+    day6_hug: {
+        stage: "第 6 夜 · 凌晨三点",
+        story: '<span class="narration">雨渐渐小了，天快亮了。你们站在她公寓楼下，路灯把两个人的影子拉得很长很长。</span><span class="name-tag">田小姐：</span>今天……很开心。可以抱一下吗？',
+        choices: [
+            { text: "A：（轻轻拥抱她）田小姐，我……我喜欢你。",           hp: +20, next: 'day7_confess'  },
+            { text: "B：（拥抱）今天是很棒的一夜。",                       hp: +8,  next: 'day7_friend'   },
+            { text: "C：（僵硬地拍拍她的肩膀）早点休息。",                 hp: 0,   next: 'day7_friend'   },
+        ],
+    },
+    day6_chase: {
+        stage: "第 6 夜 · 追上她",
+        story: '<span class="narration">你追上她，拽住她的手腕。她浑身湿透了，眼圈红红的。</span><span class="name-tag">田小姐：</span>……你还追过来干什么？',
+        choices: [
+            { text: "A：对不起！我……我其实很想陪你！",   hp: +15, next: 'day7_confess'  },
+            { text: "B：我就是……不想让你一个人淋雨。",   hp: +8,  next: 'day7_friend'   },
+        ],
+    },
+    day6_alone: {
+        stage: "第 6 夜 · 各自回家",
+        story: '<span class="narration">你们各自打着伞，在路口道别。雨丝把街灯揉成一团模糊的光。</span><span class="name-tag">田小姐：</span>那……晚安。',
+        choices: [
+            { text: "A：晚安，今天谢谢你。",     hp: +3,  next: 'day7_friend' },
+            { text: "B：嗯。",                   hp: 0,   next: 'day7_friend' },
+        ],
+    },
+
+    /* ---- 第 7 夜：七种结局（按好感度 + 选择决定） ---- */
+    day7_confess: {
+        stage: "第 7 夜 · 结局",
+        story: '<span class="name-tag">田小姐：</span>……你说什么？<span class="narration">她抬起头，雨水、还是泪水，顺着脸颊往下滑。</span>',
+        ending: true,
+        resolve(hp){
+            if(hp >= 100) return { title: "💕 甜蜜告白结局", cls: "ending-good",
+                text: "她踮起脚，轻轻凑到你耳边：我也是……我也是，从很久之前就喜欢你了。\n路灯下，雨停了。你们拥抱在一起，两颗心跳得比任何时候都响。" };
+            if(hp >= 75)  return { title: "🌸 双向暗恋结局", cls: "ending-good",
+                text: "她沉默了三秒，然后笑了——是那种眼睛里亮得像星星一样的笑。\n我也是。她说，笨蛋，我等你这句话等了好久了。" };
+            if(hp >= 55)  return { title: "🌙 雨夜承诺结局", cls: "ending-mid",
+                text: "她低下头，耳根通红：……让我想想。明天……明天我给你答复，好不好？\n这是一个温柔的开始。" };
+            return { title: "💔 遗憾错过结局", cls: "ending-bad",
+                text: "她怔了怔，轻声说：……我一直把你当很好的朋友。\n风把你的外套吹得猎猎作响，你听见心里什么东西，轻轻碎了。" };
+        },
+    },
+    day7_friend: {
+        stage: "第 7 夜 · 结局",
+        story: '<span class="narration">雨停了。她冲你挥挥手，跑进楼道。你站在原地，手里还攥着她用过的伞。</span>',
+        ending: true,
+        resolve(hp){
+            if(hp >= 80) return { title: "🍂 暧昧朋友结局", cls: "ending-mid",
+                text: "她发来了一条微信：今天真的很开心！下次再一起散步哦～\n你知道，你们之间的距离，只差一点点了。" };
+            if(hp >= 55) return { title: "☕ 温柔朋友结局", cls: "ending-mid",
+                text: "她只是礼貌地道了晚安。也许下一次，你应该再勇敢一点。" };
+            return { title: "💫 擦肩而过结局", cls: "ending-bad",
+                text: "一周后，你听说她搬了家，换了工作，换了手机号。\n那一夜的雨，成了一个没有后续的故事。" };
+        },
+    },
+};
+
+/* ========= 渲染 ========= */
+function updateHp() {
+    hp = Math.max(0, Math.min(120, hp));
+    hpEl.textContent = hp;
+    hpFill.style.width = Math.min(100, hp) + "%";
+}
+
+function render() {
+    const s = SCENES[node];
+    stageEl.textContent = s.stage;
+    storyEl.innerHTML   = s.story;
+    optionEl.innerHTML  = '';
+    updateHp();
+
+    // 结局
+    if (s.ending) {
+        const r = s.resolve(hp);
+        storyEl.innerHTML =
+            `<div class="end-text ${r.cls}">${r.title}</div>` +
+            `<span class="narration">最终好感度：${hp}</span>` +
+            `<p style="margin-top:14px;white-space:pre-line">${r.text}</p>`;
+        const btn = document.createElement('button');
+        btn.textContent = '✦ 再陪她走一次 ✦';
+        btn.addEventListener('click', restart);
+        optionEl.appendChild(btn);
+        return;
     }
-    hpEl.innerText = hp;
+
+    // 普通选项
+    s.choices.forEach((c, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = c.text;
+        btn.addEventListener('click', () => pick(i));
+        optionEl.appendChild(btn);
+    });
 }
 
-//分支1
-function select1_1(){
-    hp +=10;
-    end("甜蜜结局","田小姐笑着递过奶茶，你们并肩漫步，晚风裹挟着甜甜的香气。好感度很高，她很喜欢和你待在一起。");
-}
-function select1_2(){
-    hp +=6;
-    end("温柔结局","田小姐点点头，一路上和你聊着日常，气氛轻松惬意。");
+function pick(index) {
+    const c = SCENES[node].choices[index];
+    hp += c.hp;
+    node = c.next;
+    render();
 }
 
-//分支2
-function select2_1(){
-    hp +=15;
-    end("告白结局","田小姐低头抿嘴笑，轻轻说：其实，我也期待能见到你。");
-}
-function select2_2(){
-    hp -=8;
-    end("平淡结局","田小姐眼神黯淡了一点，轻轻哦了一声，气氛安静下来。");
+function restart() {
+    hp = 50;
+    node = 'day1';
+    render();
 }
 
-//分支3
-function select3_1(){
-    hp +=4;
-    end("悠闲结局","你们走到安静小路，慢慢聊天，享受傍晚时光。");
-}
-function select3_2(){
-    hp -=12;
-    end("遗憾结局","田小姐愣了愣，跟你道别，独自继续散步。");
-}
-
-function end(title,text){
-    sceneEl.innerText = title;
-    storyEl.innerHTML = `<div class="end-text">${title}</div><br>${text}`;
-    optionEl.innerHTML = `<button onclick="restart()">重新开始游戏</button>`
-}
-function restart(){
-    hp=50;
-    hpEl.innerText=hp;
-    sceneEl.innerText="傍晚街边偶遇";
-    storyEl.innerHTML = `<span class="name-tag">田小姐：</span>哇，好巧！你也来这条街散步吗？晚风好舒服，我刚买了一杯奶茶。`;
-    optionEl.innerHTML = `
-        <button onclick="select(1)">A：是啊，刚好出来走走，你的奶茶看起来很好喝。</button>
-        <button onclick="select(2)">B：不是，我特意过来找你的。</button>
-        <button onclick="select(3)">C：随便逛逛，这里人有点多。</button>
-    `
-}
+render();
 </script>
 </body>
 </html>
